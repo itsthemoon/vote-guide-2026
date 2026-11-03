@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>NYC 2026 — Your Vote Guide</title>
+<style>
+  :root{
+    --ink:#15202b; --muted:#5f6b76; --paper:#f4f0e8; --card:#fffdf8;
+    --accent:#c8472f; --accent-dark:#8f2d1c; --line:#d9d2c5;
+    --blue:#1d4e89; --green:#2f6b4f;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;min-height:100%;background:var(--paper);color:var(--ink)}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.45}
+  .wrap{max-width:720px;margin:0 auto;padding:28px 18px 64px}
+  header{display:flex;justify-content:space-between;align-items:baseline;gap:16px;margin-bottom:24px}
+  .brand{font-weight:800;letter-spacing:-.04em;font-size:18px}
+  .date{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.12em}
+  h1{font-size:clamp(34px,7vw,58px);line-height:.98;letter-spacing:-.055em;margin:0 0 12px}
+  h1 em{font-style:normal;color:var(--accent)}
+  .lede{font-size:17px;color:var(--muted);max-width:52ch;margin:0 0 22px}
+  .meta{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:28px}
+  .pill{font-size:12px;border:1px solid var(--line);border-radius:999px;padding:7px 11px;background:var(--card);color:var(--muted)}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px;box-shadow:0 1px 0 rgba(0,0,0,.03)}
+  .progress{height:5px;background:#e7e0d3;border-radius:999px;overflow:hidden;margin-bottom:18px}
+  .progress > div{height:100%;width:0%;background:var(--accent);transition:width .2s ease}
+  .qnum{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+  h2{font-size:clamp(22px,4.5vw,30px);line-height:1.15;letter-spacing:-.03em;margin:0 0 6px}
+  .hint{font-size:14px;color:var(--muted);margin:0 0 18px}
+  .options{display:grid;gap:10px}
+  button.opt{
+    width:100%;text-align:left;border:1px solid var(--line);background:#fff;border-radius:12px;
+    padding:14px 15px;font:inherit;font-size:16px;cursor:pointer;color:var(--ink);
+    transition:border-color .12s,background .12s,transform .12s;
+  }
+  button.opt:hover{border-color:var(--accent);background:#fff7f3}
+  button.opt:active{transform:scale(.995)}
+  button.opt.selected{border-color:var(--accent);background:#fff2ec;box-shadow:inset 0 0 0 1px var(--accent)}
+  .nav{display:flex;justify-content:space-between;gap:12px;margin-top:18px}
+  .btn{border:0;border-radius:10px;padding:11px 15px;font:inherit;font-weight:700;cursor:pointer}
+  .btn.ghost{background:transparent;color:var(--muted)}
+  .btn.primary{background:var(--accent);color:#fff}
+  .btn.primary:disabled{opacity:.35;cursor:not-allowed}
+  .result{display:none}
+  .kicker{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);font-weight:800;margin-bottom:6px}
+  .result h2{font-size:clamp(28px,5vw,40px)}
+  .bars{display:grid;gap:12px;margin:22px 0}
+  .bar-row{display:grid;grid-template-columns:132px 1fr;gap:12px;align-items:center;font-size:13px}
+  .bar-label{color:var(--muted)}
+  .bar-track{height:9px;background:#e7e0d3;border-radius:999px;overflow:hidden}
+  .bar-fill{height:100%;background:var(--blue);border-radius:999px}
+  .bar-fill.right{background:var(--accent)}
+  .note{font-size:13px;color:var(--muted);border-top:1px solid var(--line);padding-top:14px;margin-top:18px}
+  .actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+  .code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11px;word-break:break-all;background:#eee8dc;border-radius:8px;padding:10px;color:#51493e;display:none;margin-top:12px}
+  .foot{margin-top:24px;font-size:12px;color:var(--muted);display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between}
+  a{color:var(--blue)}
+  .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+  @media (max-width:520px){
+    .wrap{padding:20px 14px 48px}
+    .bar-row{grid-template-columns:104px 1fr}
+    .card{padding:18px}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="brand">NYC 2026</div>
+    <div class="date">Tuesday, Nov 3</div>
+  </header>
+
+  <main>
+    <section id="intro">
+      <h1>Your ballot,<br><em>in 3 minutes.</em></h1>
+      <p class="lede">Twelve questions about what you want New York to do. No account, no tracking — your answers stay in this browser.</p>
+      <div class="meta">
+        <span class="pill">12 questions</span>
+        <span class="pill">~3 minutes</span>
+        <span class="pill">Private by default</span>
+      </div>
+      <div class="card">
+        <div class="kicker">How it works</div>
+        <p style="margin:0 0 14px">Answer honestly. At the end you get a shareable result code you can send to Hermes for a personalized candidate and proposal recommendation.</p>
+        <button class="btn primary" id="startBtn">Start the quiz →</button>
+      </div>
+      <div class="foot">
+        <span>No cookies. No analytics. Answers live in the URL only when you share.</span>
+        <a href="https://nyc-static.electionhub.com/sampleballots/387209/12/2026G3V1_ELE_NON_L1_Style_527.pdf" target="_blank" rel="noopener">Official sample ballot</a>
+      </div>
+    </section>
+
+    <section id="quiz" style="display:none">
+      <div class="progress" aria-hidden="true"><div id="progressBar"></div></div>
+      <div class="card">
+        <div class="qnum" id="qnum">Question 1 of 10</div>
+        <h2 id="qtext"></h2>
+        <p class="hint">Pick the answer closest to your view.</p>
+        <div class="options" id="options" role="group" aria-labelledby="qtext"></div>
+        <div class="nav">
+          <button class="btn ghost" id="backBtn">← Back</button>
+          <button class="btn primary" id="nextBtn" disabled>Next →</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="result" class="result">
+      <div class="card">
+        <div class="kicker">Your result</div>
+        <h2 id="archetype">The Pragmatic New Yorker</h2>
+        <p class="lede" id="summary"></p>
+        <div class="bars" id="bars"></div>
+        <div class="actions">
+          <button class="btn primary" id="copyBtn">Copy result for Hermes</button>
+          <button class="btn ghost" id="shareBtn">Copy share link</button>
+          <button class="btn ghost" id="restartBtn">Start over</button>
+        </div>
+        <div class="code" id="codeBox"></div>
+        <p class="note">Send the copied result to Hermes. It contains only your quiz answers — no name, address, or account.</p>
+      </div>
+    </section>
+  </main>
+</div>
+
+<script>
+const QUESTIONS = [
+  {id:'housing', text:'New York should build a lot more housing — including taller buildings near transit — even if neighborhoods change.', axis:'yimby', left:'Strongly agree', right:'Strongly disagree'},
+  {id:'safety', text:'More police and stricter enforcement will make the city safer than expanding mental-health and community programs.', axis:'safety', left:'Strongly agree', right:'Strongly disagree'},
+  {id:'taxes', text:'Raise taxes on high earners and large businesses to pay for public services.', axis:'tax', left:'Strongly agree', right:'Strongly disagree'},
+  {id:'climate', text:'The city should prioritize buses, bikes, and congestion pricing over parking and car traffic.', axis:'climate', left:'Strongly agree', right:'Strongly disagree'},
+  {id:'immigration', text:'New York City should limit its cooperation with federal immigration enforcement.', axis:'rights', left:'Strongly agree', right:'Strongly disagree'},
+  {id:'abortion', text:'New York should protect and expand access to abortion.', axis:'rights2', left:'Strongly agree', right:'Strongly disagree'},
+  {id:'labor', text:'Stronger unions and worker protections are worth higher costs for businesses.', axis:'labor', left:'Strongly agree', right:'Strongly disagree'},
+  {id:'justice', text:'The city should reduce reliance on cash bail and incarceration and invest in alternatives.', axis:'justice', left:'Strongly agree', right:'Strongly disagree'},
+  {id:'schools', text:'Public schools should get more funding before the city expands charter schools.', axis:'schools', left:'Strongly agree', right:'Strongly disagree'},
+  {id:'process', text:'The city should speed up permits and construction, even if that means less neighborhood review.', axis:'speed', left:'Strongly agree', right:'Strongly disagree'},
+  {id:'reserves', text:'The city should set a target amount for its rainy-day fund instead of leaving reserves without a target.', axis:'reserves', left:'Strongly agree', right:'Strongly disagree'},
+  {id:'experience', text:'I prefer experienced incumbents over outsiders promising big change.', axis:'experience', left:'Strongly agree', right:'Strongly disagree'}
+];
+
+const AXES = {
+  yimby:{label:'Housing supply', left:'Build more', right:'Slow down'},
+  safety:{label:'Public safety', left:'Enforcement', right:'Community'},
+  tax:{label:'Taxes & services', left:'Tax more', right:'Tax less'},
+  climate:{label:'Climate & transit', left:'Transit first', right:'Cars first'},
+  rights:{label:'Immigration', left:'Sanctuary', right:'Cooperate'},
+  rights2:{label:'Abortion access', left:'Protect', right:'Restrict'},
+  labor:{label:'Labor', left:'Unions', right:'Business'},
+  justice:{label:'Criminal justice', left:'Reform', right:'Tougher'},
+  schools:{label:'Public schools', left:'Fund public', right:'Charter'},
+  speed:{label:'Permitting', left:'Speed up', right:'Review'},
+  reserves:{label:'Reserves', left:'Set target', right:'No target'},
+  experience:{label:'Experience', left:'Incumbent', right:'Outsider'}
+};
+
+let answers = new Array(QUESTIONS.length).fill(null);
+let current = 0;
+
+const $ = id => document.getElementById(id);
+
+function show(section){
+  ['intro','quiz','result'].forEach(id => $(id).style.display = id===section ? (id==='result'?'block':'block') : 'none');
+}
+
+function start(){
+  current = 0;
+  answers = new Array(QUESTIONS.length).fill(null);
+  show('quiz');
+  render();
+}
+
+function render(){
+  const q = QUESTIONS[current];
+  $('qnum').textContent = `Question ${current+1} of ${QUESTIONS.length}`;
+  $('qtext').textContent = q.text;
+  $('progressBar').style.width = `${((current)/QUESTIONS.length)*100}%`;
+  const opts = $('options');
+  opts.innerHTML = '';
+  const labels = [q.left, 'Somewhat agree', 'Somewhat disagree', q.right];
+  labels.forEach((label, i) => {
+    const b = document.createElement('button');
+    b.className = 'opt' + (answers[current]===i?' selected':'');
+    b.type = 'button';
+    b.textContent = label;
+    b.onclick = () => { answers[current]=i; render(); };
+    opts.appendChild(b);
+  });
+  $('backBtn').style.visibility = current===0 ? 'hidden' : 'visible';
+  $('nextBtn').textContent = current===QUESTIONS.length-1 ? 'See my result →' : 'Next →';
+  $('nextBtn').disabled = answers[current]===null;
+}
+
+function score(){
+  const totals = {};
+  Object.keys(AXES).forEach(k => totals[k]=0);
+  QUESTIONS.forEach((q,i) => {
+    const a = answers[i];
+    if(a===null) return;
+    // 0/1 support the left side, 2/3 support the right; magnitude 2,1,1,2
+    const v = [2,1,-1,-2][a];
+    totals[q.axis] += v;
+  });
+  return totals;
+}
+
+function result(){
+  const totals = score();
+  const keys = Object.keys(AXES);
+  const max = 2 * Math.max(1, QUESTIONS.length);
+  $('bars').innerHTML = keys.map(k => {
+    const v = totals[k] || 0;
+    const pct = Math.min(100, Math.round(Math.abs(v)/2*100));
+    const side = v>=0 ? 'left' : 'right';
+    return `<div class="bar-row"><div class="bar-label">${AXES[k].label}</div><div class="bar-track"><div class="bar-fill ${side}" style="width:${pct}%"></div></div></div>`;
+  }).join('');
+  const progressive = (totals.yimby||0)+(totals.tax||0)+(totals.climate||0)+(totals.rights||0)+(totals.rights2||0)+(totals.labor||0)+(totals.justice||0)+(totals.schools||0);
+  const law = totals.safety||0;
+  let title, summary;
+  if(progressive >= 6 && law <= 0){
+    title = 'The YIMBY Progressive';
+    summary = 'You want more housing, stronger rights, and a wider social safety net. Your ballot choices will mostly line up with the progressive and Working Families candidates — and with the proposals that speed up housing and transit.';
+  } else if(progressive >= 3){
+    title = 'The Pragmatic Liberal';
+    summary = 'You lean progressive but want government to work faster and be more practical. You are likely to split between progressive Democrats and efficiency-focused ballot proposals.';
+  } else if(law > 3 && progressive < 0){
+    title = 'The Law-and-Order Moderate';
+    summary = 'Public safety and lower taxes matter most to you. You will likely favor the Republican and Conservative lines, and be skeptical of proposals that expand city spending or reduce review.';
+  } else {
+    title = 'The Independent New Yorker';
+    summary = 'You do not fit one camp cleanly. Your best ballot is a mix: candidate-by-candidate, with special attention to the five charter proposals.';
+  }
+  $('archetype').textContent = title;
+  $('summary').textContent = summary;
+  const payload = {v:1, a:answers, t:Date.now()};
+  const code = btoa(unescape(encodeURIComponent(JSON.stringify(payload))));
+  $('codeBox').textContent = code;
+  $('codeBox').style.display = 'block';
+  show('result');
+}
+
+$('startBtn').onclick = start;
+$('backBtn').onclick = () => { if(current>0){current--; render();} };
+$('nextBtn').onclick = () => {
+  if(answers[current]===null) return;
+  if(current < QUESTIONS.length-1){ current++; render(); } else { result(); }
+};
+$('restartBtn').onclick = start;
+$('copyBtn').onclick = async () => {
+  const text = `NYC 2026 quiz result: ${$('codeBox').textContent}`;
+  try{ await navigator.clipboard.writeText(text); $('copyBtn').textContent='Copied'; setTimeout(()=>$('copyBtn').textContent='Copy result for Hermes',1600);}catch(e){ prompt('Copy this:', text); }
+};
+$('shareBtn').onclick = async () => {
+  const url = location.origin + location.pathname + '?r=' + encodeURIComponent($('codeBox').textContent);
+  try{ await navigator.clipboard.writeText(url); $('shareBtn').textContent='Copied'; setTimeout(()=>$('shareBtn').textContent='Copy share link',1600);}catch(e){ prompt('Copy this link:', url); }
+};
+
+// restore shared result
+const params = new URLSearchParams(location.search);
+if(params.get('r')){
+  try{
+    const data = JSON.parse(decodeURIComponent(escape(atob(params.get('r')))));
+    if(Array.isArray(data.a) && data.a.length===QUESTIONS.length){
+      answers = data.a;
+      result();
+    }
+  }catch(e){}
+}
+</script>
+</body>
+</html>
