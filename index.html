@@ -217,13 +217,13 @@ function result(){
   const progressive = (totals.yimby||0)+(totals.tax||0)+(totals.climate||0)+(totals.rights||0)+(totals.rights2||0)+(totals.labor||0)+(totals.justice||0)+(totals.schools||0);
   const law = totals.safety||0;
   let title, summary;
-  if(progressive >= 6 && law <= 0){
+  if(progressive >= 8 && law <= 2){
     title = 'The YIMBY Progressive';
     summary = 'You want more housing, stronger rights, and a wider social safety net. Your ballot choices will mostly line up with the progressive and Working Families candidates — and with the proposals that speed up housing and transit.';
-  } else if(progressive >= 3){
+  } else if(progressive >= 4){
     title = 'The Pragmatic Liberal';
     summary = 'You lean progressive but want government to work faster and be more practical. You are likely to split between progressive Democrats and efficiency-focused ballot proposals.';
-  } else if(law > 3 && progressive < 0){
+  } else if(law >= 3 && progressive <= 0){
     title = 'The Law-and-Order Moderate';
     summary = 'Public safety and lower taxes matter most to you. You will likely favor the Republican and Conservative lines, and be skeptical of proposals that expand city spending or reduce review.';
   } else {
